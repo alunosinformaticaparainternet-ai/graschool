@@ -1,0 +1,1053 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRASCHOOL - Planos de Ensino</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+    min-height: 100vh;
+}
+
+header {
+    background: #ffd000;
+    min-height: 90px;
+    padding: 15px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 52px;
+    height: 52px;
+    background: #111;
+    color: #ffd000;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.logo-text h1 {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.logo-text p {
+    font-size: 13px;
+    color: #333;
+    margin-top: 3px;
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,.45);
+    padding: 7px 12px 7px 7px;
+    border-radius: 40px;
+}
+
+.perfil img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #111;
+}
+
+.perfil-info strong {
+    display: block;
+    font-size: 14px;
+}
+
+.perfil-info span {
+    display: block;
+    font-size: 12px;
+    color: #444;
+    margin-top: 2px;
+}
+
+main {
+    width: min(1400px,92%);
+    margin: 40px auto;
+}
+
+.topo-pagina {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.topo-pagina h2 {
+    font-size: 32px;
+    margin-bottom: 7px;
+}
+
+.topo-pagina p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.periodo {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0,0,0,.05);
+    white-space: nowrap;
+}
+
+/* FILTROS */
+
+.filtros {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+}
+
+.filtros-titulo {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 17px;
+}
+
+.filtros-linha {
+    display: grid;
+    grid-template-columns: repeat(3,1fr) auto;
+    gap: 15px;
+    align-items: end;
+}
+
+.campo-filtro label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.campo-filtro select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    background: #fafafa;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+.campo-filtro select:focus {
+    border-color: #d6ae00;
+}
+
+.botao-limpar {
+    border: none;
+    background: #111;
+    color: #ffd000;
+    padding: 13px 20px;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 44px;
+}
+
+.botao-limpar:hover {
+    background: #ffd000;
+    color: #111;
+}
+
+.resultado-filtro {
+    margin-top: 17px;
+    color: #777;
+    font-size: 13px;
+}
+
+/* CARDS */
+
+.planos {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 22px;
+}
+
+.card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+    overflow: hidden;
+    transition: .25s;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: #ffd000;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+
+.card-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.icone {
+    width: 55px;
+    height: 55px;
+    background: #fff3a8;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.badge {
+    background: #111;
+    color: #ffd000;
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.professor {
+    color: #777;
+    font-size: 13px;
+}
+
+.card-descricao {
+    color: #555;
+    line-height: 1.6;
+    font-size: 14px;
+    margin: 18px 0 20px;
+}
+
+.informacoes {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.informacao {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.informacao span {
+    display: block;
+    color: #888;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.informacao strong {
+    font-size: 13px;
+}
+
+.progresso {
+    margin-bottom: 20px;
+}
+
+.progresso-topo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 12px;
+}
+
+.progresso-topo span:first-child {
+    color: #666;
+}
+
+.progresso-topo span:last-child {
+    font-weight: bold;
+}
+
+.barra {
+    width: 100%;
+    height: 7px;
+    background: #e8e8e8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.barra span {
+    display: block;
+    height: 100%;
+    background: #ffd000;
+    border-radius: 20px;
+}
+
+.botao {
+    width: 100%;
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    background: #111;
+    color: #ffd000;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.botao:hover {
+    background: #ffd000;
+    color: #111;
+}
+
+.sem-resultados {
+    display: none;
+    background: #fff;
+    border-radius: 15px;
+    padding: 45px 20px;
+    text-align: center;
+    color: #777;
+    grid-column: 1/-1;
+}
+
+.sem-resultados h3 {
+    color: #111;
+    margin-bottom: 10px;
+}
+
+.area-voltar {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.botao-voltar {
+    display: inline-block;
+    text-decoration: none;
+    background: #ffd000;
+    color: #111;
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.botao-voltar:hover {
+    background: #e6bb00;
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal.ativo {
+    display: flex;
+}
+
+.modal-conteudo {
+    background: #fff;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 30px;
+    animation: abrirModal .25s ease;
+}
+
+@keyframes abrirModal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+}
+
+.modal-cabecalho h2 {
+    font-size: 23px;
+}
+
+.fechar {
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: #eee;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.modal-secao {
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 17px;
+    margin-bottom: 15px;
+}
+
+.modal-secao h3 {
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+.modal-secao p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.modal-footer {
+    margin-top: 20px;
+}
+
+.botao-fechar {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #ffd000;
+    color: #111;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+footer {
+    margin-top: 45px;
+    padding: 25px;
+    text-align: center;
+    background: #111;
+    color: #fff;
+    font-size: 13px;
+}
+
+footer strong {
+    color: #ffd000;
+}
+
+@media(max-width:900px) {
+    .planos {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros-linha {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px) {
+    header {
+        padding: 12px 4%;
+    }
+
+    .logo-text p,
+    .perfil-info {
+        display: none;
+    }
+
+    .perfil {
+        padding: 5px;
+    }
+
+    .perfil img {
+        width: 42px;
+        height: 42px;
+    }
+
+    main {
+        width: 94%;
+        margin: 25px auto;
+    }
+
+    .topo-pagina {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .topo-pagina h2 {
+        font-size: 27px;
+    }
+
+    .filtros-linha {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 22px;
+    }
+}
+
+@media(max-width:450px) {
+    .logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .logo-text h1 {
+        font-size: 20px;
+    }
+
+    .informacoes {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-conteudo {
+        padding: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo">GS</div>
+        <div class="logo-text">
+            <h1>GRASCHOOL</h1>
+            <p>Sistema de acompanhamento escolar</p>
+        </div>
+    </div>
+
+    <div class="perfil">
+        <img src="{{ url_for('static', filename='img/12225881.png') }}"
+             alt="Foto de perfil">
+
+        <div class="perfil-info">
+            <strong>{{ session.get('usuario_nome', 'João Silva') }}</strong>
+            <span>{{ session.get('usuario_tipo', 'Aluno') | title }}</span>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <div class="topo-pagina">
+        <div>
+            <h2>Planos de Ensino</h2>
+            <p>
+                Consulte os conteúdos, objetivos e formas de avaliação
+                das disciplinas.
+            </p>
+        </div>
+
+        <div class="periodo">
+            Ano letivo: <span id="anoAtual">2026</span>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
+
+    <section class="filtros">
+
+        <div class="filtros-titulo">
+            <span>⚙️</span> Filtrar planos de ensino
+        </div>
+
+        <div class="filtros-linha">
+
+            <div class="campo-filtro">
+                <label for="filtroAno">Ano letivo</label>
+                <select id="filtroAno">
+                    <option value="todos">Todos os anos</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                </select>
+            </div>
+
+            <div class="campo-filtro">
+                <label for="filtroSemestre">Semestre</label>
+                <select id="filtroSemestre">
+                    <option value="todos">Todos os semestres</option>
+                    <option value="1">1º Semestre</option>
+                    <option value="2">2º Semestre</option>
+                </select>
+            </div>
+
+            <div class="campo-filtro">
+                <label for="filtroPeriodo">Período / Bimestre</label>
+                <select id="filtroPeriodo">
+                    <option value="todos">Todos os períodos</option>
+                    <option value="1">1º Bimestre</option>
+                    <option value="2">2º Bimestre</option>
+                    <option value="3">3º Bimestre</option>
+                    <option value="4">4º Bimestre</option>
+                </select>
+            </div>
+
+            <button class="botao-limpar" onclick="limparFiltros()">
+                Limpar filtros
+            </button>
+
+        </div>
+
+        <div class="resultado-filtro" id="resultadoFiltro">
+            Exibindo todos os planos de ensino.
+        </div>
+
+    </section>
+
+    <!-- DISCIPLINAS -->
+
+    <section class="planos" id="listaPlanos">
+
+        <div class="sem-resultados" id="semResultados">
+            <h3>Nenhum plano encontrado!</h3>
+            <p>Não existem planos para os filtros selecionados.</p>
+        </div>
+
+    </section>
+
+    <div class="area-voltar">
+        <a class="botao-voltar" href="{{ url_for('servicos') }}">
+            ← Voltar para Serviços
+        </a>
+    </div>
+
+</main>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-conteudo">
+
+        <div class="modal-cabecalho">
+            <h2 id="tituloModal">Plano de Ensino</h2>
+
+            <button type="button" class="fechar"
+                    onclick="fecharPlano()">×</button>
+        </div>
+
+        <div class="modal-secao">
+            <h3>Objetivo</h3>
+            <p id="objetivo"></p>
+        </div>
+
+        <div class="modal-secao">
+            <h3>Conteúdos</h3>
+            <p id="conteudos"></p>
+        </div>
+
+        <div class="modal-secao">
+            <h3>Metodologia</h3>
+            <p id="metodologia"></p>
+        </div>
+
+        <div class="modal-secao">
+            <h3>Forma de avaliação</h3>
+            <p id="avaliacao"></p>
+        </div>
+
+        <div class="modal-footer">
+            <button class="botao-fechar" onclick="fecharPlano()">
+                Fechar plano
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <strong>GRASCHOOL</strong>
+    © 2026 — Sistema Escolar
+</footer>
+
+<script>
+
+// DADOS DOS PLANOS
+
+const disciplinas = [
+
+    {
+        id: "matematica",
+        nome: "Matemática",
+        professor: "Carlos Oliveira",
+        icone: "📐",
+        carga: "80 horas",
+        descricao: "Estudo de equações, funções, geometria, porcentagem e resolução de problemas.",
+        progresso: 70,
+        objetivo: "Desenvolver o raciocínio lógico e matemático dos alunos, utilizando conceitos para resolver problemas do cotidiano.",
+        conteudos: "Equações, funções, porcentagem, geometria, estatística e resolução de problemas.",
+        metodologia: "Aulas teóricas, exercícios práticos, atividades em grupo e resolução de situações-problema.",
+        avaliacao: "Provas, atividades, trabalhos e participação em sala."
+    },
+
+    {
+        id: "portugues",
+        nome: "Português",
+        professor: "Ana Paula",
+        icone: "📖",
+        carga: "80 horas",
+        descricao: "Desenvolvimento da leitura, interpretação de textos, gramática e produção textual.",
+        progresso: 65,
+        objetivo: "Desenvolver a capacidade de leitura, interpretação e produção de diferentes tipos de textos.",
+        conteudos: "Gramática, interpretação textual, literatura, produção de textos e comunicação.",
+        metodologia: "Leitura de textos, debates, atividades escritas e produção textual.",
+        avaliacao: "Trabalhos, atividades, provas e produção de textos."
+    },
+
+    {
+        id: "historia",
+        nome: "História",
+        professor: "João Mendes",
+        icone: "🏛️",
+        carga: "60 horas",
+        descricao: "Estudo dos principais acontecimentos históricos do Brasil e do mundo.",
+        progresso: 55,
+        objetivo: "Compreender acontecimentos históricos e suas relações com a sociedade atual.",
+        conteudos: "História do Brasil, História Mundial, guerras, culturas e transformações sociais.",
+        metodologia: "Aulas expositivas, vídeos, pesquisas, debates e trabalhos em grupo.",
+        avaliacao: "Provas, pesquisas, trabalhos e participação."
+    },
+
+    {
+        id: "informatica",
+        nome: "Informática",
+        professor: "Iud Veras",
+        icone: "💻",
+        carga: "100 horas",
+        descricao: "Introdução à programação, desenvolvimento web, tecnologia e sistemas computacionais.",
+        progresso: 80,
+        objetivo: "Desenvolver conhecimentos de tecnologia, programação e desenvolvimento de sistemas.",
+        conteudos: "HTML, CSS, JavaScript, lógica de programação, APIs e sistemas web.",
+        metodologia: "Aulas práticas no computador, exercícios de programação e desenvolvimento de projetos.",
+        avaliacao: "Projetos, exercícios práticos, trabalhos e atividades."
+    }
+
+];
+
+// GERA OS PLANOS PARA OS ANOS E SEMESTRES
+
+function gerarPlanos() {
+
+    const lista = document.getElementById("listaPlanos");
+
+    lista.querySelectorAll(".card").forEach(card => card.remove());
+
+    const anos = [2024, 2025, 2026, 2027, 2028];
+
+    anos.forEach(ano => {
+
+        [1, 2].forEach(semestre => {
+
+            disciplinas.forEach((disciplina, indice) => {
+
+                const bimestre = semestre === 1
+                    ? (indice % 2) + 1
+                    : (indice % 2) + 3;
+
+                const card = document.createElement("article");
+
+                card.className = "card";
+
+                card.dataset.ano = ano;
+                card.dataset.semestre = semestre;
+                card.dataset.periodo = bimestre;
+
+                card.innerHTML = `
+
+                    <div class="card-topo">
+
+                        <div class="icone">
+                            ${disciplina.icone}
+                        </div>
+
+                        <span class="badge">
+                            ${semestre}º SEMESTRE
+                        </span>
+
+                    </div>
+
+                    <h2>${disciplina.nome}</h2>
+
+                    <div class="professor">
+                        Professor: ${disciplina.professor}
+                    </div>
+
+                    <p class="card-descricao">
+                        ${disciplina.descricao}
+                    </p>
+
+                    <div class="informacoes">
+
+                        <div class="informacao">
+                            <span>CARGA HORÁRIA</span>
+                            <strong>${disciplina.carga}</strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>ANO LETIVO</span>
+                            <strong>${ano}</strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>SEMESTRE</span>
+                            <strong>${semestre}º semestre</strong>
+                        </div>
+
+                        <div class="informacao">
+                            <span>PERÍODO</span>
+                            <strong>${bimestre}º bimestre</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="progresso">
+
+                        <div class="progresso-topo">
+                            <span>Conteúdo planejado</span>
+                            <span>${disciplina.progresso}%</span>
+                        </div>
+
+                        <div class="barra">
+                            <span style="width:${disciplina.progresso}%"></span>
+                        </div>
+
+                    </div>
+
+                    <button class="botao"
+                        onclick="abrirPlano('${disciplina.id}', ${ano}, ${semestre}, ${bimestre})">
+                        Ver plano completo
+                    </button>
+
+                `;
+
+                lista.insertBefore(
+                    card,
+                    document.getElementById("semResultados")
+                );
+
+            });
+
+        });
+
+    });
+
+    aplicarFiltros();
+}
+
+// APLICA OS FILTROS
+
+function aplicarFiltros() {
+
+    const ano = document.getElementById("filtroAno").value;
+    const semestre = document.getElementById("filtroSemestre").value;
+    const periodo = document.getElementById("filtroPeriodo").value;
+
+    const cards = document.querySelectorAll(".card");
+
+    let quantidade = 0;
+
+    cards.forEach(card => {
+
+        const correspondeAno =
+            ano === "todos" || card.dataset.ano === ano;
+
+        const correspondeSemestre =
+            semestre === "todos" || card.dataset.semestre === semestre;
+
+        const correspondePeriodo =
+            periodo === "todos" || card.dataset.periodo === periodo;
+
+        if (
+            correspondeAno &&
+            correspondeSemestre &&
+            correspondePeriodo
+        ) {
+
+            card.style.display = "block";
+            quantidade++;
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+    document.getElementById("semResultados").style.display =
+        quantidade === 0 ? "block" : "none";
+
+    document.getElementById("resultadoFiltro").textContent =
+        quantidade + (quantidade === 1
+        ? " plano encontrado."
+        : " planos encontrados.");
+
+    document.getElementById("anoAtual").textContent =
+        ano === "todos" ? "Todos" : ano;
+
+}
+
+// LIMPAR FILTROS
+
+function limparFiltros() {
+
+    document.getElementById("filtroAno").value = "todos";
+    document.getElementById("filtroSemestre").value = "todos";
+    document.getElementById("filtroPeriodo").value = "todos";
+
+    aplicarFiltros();
+
+}
+
+// ABRIR PLANO COMPLETO
+
+function abrirPlano(id, ano, semestre, bimestre) {
+
+    const plano = disciplinas.find(item => item.id === id);
+
+    if (!plano) return;
+
+    document.getElementById("tituloModal").textContent =
+        "Plano de Ensino - " + plano.nome;
+
+    document.getElementById("objetivo").textContent =
+        plano.objetivo;
+
+    document.getElementById("conteudos").textContent =
+        plano.conteudos;
+
+    document.getElementById("metodologia").textContent =
+        plano.metodologia;
+
+    document.getElementById("avaliacao").textContent =
+        plano.avaliacao;
+
+    document.getElementById("tituloModal").textContent +=
+        " | " + ano + " | " + semestre + "º semestre";
+
+    document.getElementById("conteudos").textContent +=
+        " Período: " + bimestre + "º bimestre.";
+
+    document.getElementById("modal").classList.add("ativo");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+// FECHAR MODAL
+
+function fecharPlano() {
+
+    document.getElementById("modal").classList.remove("ativo");
+
+    document.body.style.overflow = "";
+
+}
+
+// EVENTOS DOS FILTROS
+
+document.getElementById("filtroAno").addEventListener(
+    "change", aplicarFiltros
+);
+
+document.getElementById("filtroSemestre").addEventListener(
+    "change", aplicarFiltros
+);
+
+document.getElementById("filtroPeriodo").addEventListener(
+    "change", aplicarFiltros
+);
+
+document.getElementById("modal").addEventListener("click", function(event) {
+
+    if (event.target === this) {
+        fecharPlano();
+    }
+
+});
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        fecharPlano();
+    }
+
+});
+
+// INICIALIZAÇÃO
+
+gerarPlanos();
+
+</script>
+
+</body>
+</html>

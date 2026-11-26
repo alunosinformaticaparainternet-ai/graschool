@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GRASCHOOL - Serviços</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        /* CABEÇALHO */
+
+        header {
+            background: #ffd000;
+            color: #000;
+            padding: 20px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .perfil {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+        }
+
+        .perfil img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #000;
+        }
+
+        /* CONTEÚDO */
+
+        main {
+            width: 90%;
+            max-width: 1150px;
+            margin: 45px auto;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .titulo h1 {
+            font-size: 34px;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .titulo p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* CARDS */
+
+        .lista-servicos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .servico {
+            background: #fff;
+            padding: 30px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .servico::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: #ffd000;
+        }
+
+        .servico:hover {
+            transform: translateY(-6px);
+            border-color: #ffd000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ÍCONES */
+
+        .icone {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff4b3;
+            border-radius: 15px;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .servico h2 {
+            color: #000;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .servico p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* LINK DOS CARDS */
+
+        .acessar {
+            display: inline-block;
+            color: #000;
+            background: #ffd000;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .servico:hover .acessar {
+            background: #ffb900;
+        }
+
+        /* BOTÃO VOLTAR */
+
+        .botao-voltar {
+            display: block;
+            width: 220px;
+            padding: 14px;
+            margin: 40px auto 20px;
+            background: #ffd000;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .botao-voltar:hover {
+            background: #ffb900;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* RODAPÉ */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 750px) {
+            header {
+                padding: 18px 20px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .perfil span {
+                display: none;
+            }
+
+            main {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .titulo h1 {
+                font-size: 28px;
+            }
+
+            .lista-servicos {
+                grid-template-columns: 1fr;
+            }
+
+            .servico {
+                padding: 25px;
+            }
+
+            .botao-voltar {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+
+    <header>
+
+        <div class="logo">
+            GRASCHOOL
+        </div>
+
+        <div class="perfil">
+
+            <span>
+                {{ session.get('usuario_nome', 'Aluno') }}
+            </span>
+
+            <img
+                src="{{ url_for('static', filename='img/12225881.png') }}"
+                alt="Foto de perfil"
+            >
+
+        </div>
+
+    </header>
+
+    <!-- CONTEÚDO -->
+
+    <main>
+
+        <div class="titulo">
+
+            <h1>Serviços Escolares</h1>
+
+            <p>
+                Acesse rapidamente os principais recursos
+                disponíveis no GRASCHOOL.
+            </p>
+
+        </div>
+
+        <!-- LISTA DE SERVIÇOS -->
+
+        <section class="lista-servicos">
+
+            <!-- FREQUÊNCIA -->
+
+            <a
+                href="{{ url_for('frequencia') }}"
+                class="servico"
+            >
+
+                <div class="icone">📅</div>
+
+                <h2>Frequência</h2>
+
+                <p>
+                    Consulte a quantidade de presenças e faltas
+                    e acompanhe a frequência escolar do aluno.
+                </p>
+
+                <span class="acessar">Acessar</span>
+
+            </a>
+
+            <!-- ANOTAÇÕES -->
+
+            <a
+                href="{{ url_for('anotacoes') }}"
+                class="servico"
+            >
+
+                <div class="icone">📝</div>
+
+                <h2>Anotações</h2>
+
+                <p>
+                    Consulte informações, observações e registros
+                    realizados pelos professores.
+                </p>
+
+                <span class="acessar">Acessar</span>
+
+            </a>
+
+            <!-- PLANOS DE ENSINO -->
+
+            <a
+                href="{{ url_for('planos') }}"
+                class="servico"
+            >
+
+                <div class="icone">📖</div>
+
+                <h2>Planos de Ensino</h2>
+
+                <p>
+                    Visualize os conteúdos, objetivos e atividades
+                    planejadas para cada disciplina.
+                </p>
+
+                <span class="acessar">Acessar</span>
+
+            </a>
+
+            <!-- NOTIFICAÇÕES -->
+
+            <a
+                href="{{ url_for('notificacoes') }}"
+                class="servico"
+            >
+
+                <div class="icone">🔔</div>
+
+                <h2>Notificações</h2>
+
+                <p>
+                    Confira avisos importantes, comunicados
+                    e atualizações da escola.
+                </p>
+
+                <span class="acessar">Acessar</span>
+
+            </a>
+
+        </section>
+
+        <!-- BOTÃO VOLTAR -->
+
+        <a
+            href="{{ url_for('inicio') }}"
+            class="botao-voltar"
+        >
+            ← Voltar
+        </a>
+
+    </main>
+
+    <!-- RODAPÉ -->
+
+    <footer>
+        GRASCHOOL © 2026 — Sistema Escolar
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GRASCHOOL - Ajuda</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        /* CABEÇALHO */
+
+        header {
+            background: #ffd000;
+            color: rgb(0, 0, 0);
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 16px;
+        }
+
+        /* CONTEÚDO */
+
+        .ajuda {
+            width: 90%;
+            max-width: 900px;
+            margin: 35px auto;
+        }
+
+        .ajuda h2 {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 25px;
+            font-size: 26px;
+        }
+
+        /* CARDS */
+
+        .lista-ajuda {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .item-ajuda {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+        }
+
+        .item-ajuda h3 {
+            color: #000000;
+            margin-bottom: 10px;
+            font-size: 19px;
+        }
+
+        .item-ajuda p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CONTATO */
+
+        .contato {
+            background: #ffd000;
+            color: rgb(0, 0, 0);
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .contato h3 {
+            margin-bottom: 10px;
+        }
+
+        .contato p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* BOTÃO VOLTAR */
+
+        .botao-voltar {
+            display: block;
+            width: 220px;
+            padding: 14px;
+            margin: 35px auto;
+
+            background: #ffd000;
+            color: #000;
+
+            border: none;
+            border-radius: 25px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .botao-voltar:hover {
+            background: #ffb914;
+        }
+
+        /* RESPONSIVO */
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            header p {
+                font-size: 14px;
+            }
+
+            .ajuda {
+                width: 92%;
+            }
+
+            .lista-ajuda {
+                grid-template-columns: 1fr;
+            }
+
+            .item-ajuda {
+                padding: 22px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>GRASCHOOL</h1>
+
+        <p>Central de Ajuda</p>
+
+    </header>
+
+
+    <main class="ajuda">
+
+        <h2>Como podemos ajudar?</h2>
+
+
+        <section class="lista-ajuda">
+
+
+            <div class="item-ajuda">
+
+                <h3>Notas e Médias</h3>
+
+                <p>
+                    Acesse a área de Notas para consultar
+                    as notas de cada matéria e visualizar
+                    as médias calculadas.
+                </p>
+
+            </div>
+
+
+            <div class="item-ajuda">
+
+                <h3>Frequência</h3>
+
+                <p>
+                    Consulte a quantidade de presenças
+                    e faltas registradas durante o período
+                    letivo.
+                </p>
+
+            </div>
+
+
+            <div class="item-ajuda">
+
+                <h3>Perfil</h3>
+
+                <p>
+                    Na área de Perfil você pode consultar
+                    suas informações escolares e seus
+                    dados cadastrados.
+                </p>
+
+            </div>
+
+
+            <div class="item-ajuda">
+
+                <h3>Serviços</h3>
+
+                <p>
+                    Acesse os serviços escolares disponíveis,
+                    como anotações, planos de ensino,
+                    frequência e notificações.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <div class="contato">
+
+            <h3>Precisa de mais ajuda?</h3>
+
+            <p>
+                Entre em contato com a secretaria da escola
+                ou com o responsável pelo sistema GRASCHOOL.
+            </p>
+
+        </div>
+
+
+        <button
+            class="botao-voltar"
+            onclick="location.href='inicio.html'">
+
+            Voltar
+
+        </button>
+
+
+    </main>
+
+</body>
+
+</html>

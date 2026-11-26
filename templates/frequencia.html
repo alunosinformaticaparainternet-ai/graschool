@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRASCHOOL - Frequência</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #111;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffd000;
+            min-height: 90px;
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 52px;
+            height: 52px;
+            background: #111;
+            color: #ffd000;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            margin-top: 3px;
+            opacity: .75;
+        }
+
+        .perfil {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,.45);
+            padding: 7px 12px 7px 7px;
+            border-radius: 40px;
+        }
+
+        .perfil img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #111;
+        }
+
+        .perfil-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .perfil-info span {
+            font-size: 12px;
+            color: #444;
+        }
+
+        main {
+            width: min(1400px, 92%);
+            margin: 40px auto;
+        }
+
+        .topo-pagina {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .topo-pagina h2 {
+            font-size: 32px;
+            margin-bottom: 7px;
+        }
+
+        .topo-pagina p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .periodo-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .periodo-container label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .periodo {
+            background: #fff;
+            border: 2px solid #ddd;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            min-width: 190px;
+            outline: none;
+        }
+
+        .periodo:hover,
+        .periodo:focus {
+            border-color: #ffd000;
+        }
+
+        .periodo-atual {
+            background: #111;
+            color: #ffd000;
+            padding: 15px 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .periodo-atual strong {
+            font-size: 15px;
+        }
+
+        .periodo-atual span {
+            font-size: 13px;
+            color: #fff;
+            opacity: .8;
+        }
+
+        .resumo-frequencia {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .resumo-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid #e4e4e4;
+            box-shadow: 0 5px 18px rgba(0,0,0,.07);
+            position: relative;
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .resumo-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: #ffd000;
+        }
+
+        .resumo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 9px 24px rgba(0,0,0,.12);
+        }
+
+        .icone-card {
+            width: 45px;
+            height: 45px;
+            background: #fff3a8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            margin-bottom: 18px;
+        }
+
+        .numero {
+            display: block;
+            font-size: 31px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .numero.presente { color: #159447; }
+        .numero.falta { color: #d93636; }
+        .numero.porcentagem { color: #111; }
+
+        .descricao {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .indicador {
+            margin-top: 18px;
+        }
+
+        .barra {
+            width: 100%;
+            height: 8px;
+            background: #e8e8e8;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .barra span {
+            display: block;
+            height: 100%;
+            background: #159447;
+            border-radius: 20px;
+            transition: width .4s ease;
+        }
+
+        .indicador small {
+            display: block;
+            margin-top: 8px;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .area-voltar {
+            display: flex;
+            justify-content: center;
+            margin-top: 35px;
+        }
+
+        .botao-voltar {
+            border: none;
+            background: #ffd000;
+            color: #111;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .25s;
+            box-shadow: 0 4px 12px rgba(0,0,0,.12);
+            text-decoration: none;
+        }
+
+        .botao-voltar:hover {
+            background: #e6bb00;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 45px;
+            padding: 25px;
+            text-align: center;
+            background: #111;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        footer strong { color: #ffd000; }
+
+        @media (max-width: 1000px) {
+            .resumo-frequencia {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            header { padding: 12px 4%; }
+            .logo-text p, .perfil-info { display: none; }
+            .perfil { padding: 5px; }
+            .perfil img { width: 42px; height: 42px; }
+            main { width: 94%; margin: 25px auto; }
+
+            .topo-pagina {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .topo-pagina h2 { font-size: 26px; }
+            .periodo-container, .periodo { width: 100%; }
+
+            .periodo-atual {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .logo {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .logo-text h1 { font-size: 20px; }
+
+            .resumo-frequencia {
+                grid-template-columns: 1fr;
+            }
+
+            .resumo-card { padding: 22px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo">GS</div>
+        <div class="logo-text">
+            <h1>GRASCHOOL</h1>
+            <p>Sistema de acompanhamento escolar</p>
+        </div>
+    </div>
+
+    <div class="perfil">
+        <img src="{{ url_for('static', filename='img/12225881.png') }}"
+             alt="Foto do aluno">
+
+        <div class="perfil-info">
+            <strong>{{ session.get('usuario_nome', 'Aluno') }}</strong>
+            <span>{{ session.get('usuario_tipo', 'Aluno')|capitalize }}</span>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <div class="topo-pagina">
+        <div>
+            <h2>Frequência Escolar</h2>
+            <p>
+                Acompanhe o resumo da frequência escolar,
+                das presenças e das faltas.
+            </p>
+        </div>
+
+        <div class="periodo-container">
+            <label for="seletorPeriodo">Selecionar período</label>
+
+            <select id="seletorPeriodo" class="periodo">
+                <option value="ano">Ano Letivo 2026</option>
+                <option value="bimestre1">1º Bimestre</option>
+                <option value="bimestre2">2º Bimestre</option>
+                <option value="bimestre3">3º Bimestre</option>
+                <option value="bimestre4">4º Bimestre</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="periodo-atual">
+        <strong id="tituloPeriodo">Ano Letivo 2026</strong>
+        <span id="descricaoPeriodo">
+            Dados acumulados de todo o ano escolar.
+        </span>
+    </div>
+
+    <section class="resumo-frequencia">
+
+        <div class="resumo-card">
+            <div class="icone-card">📚</div>
+            <span class="numero" id="totalAulas">200</span>
+            <span class="descricao">Total de aulas</span>
+        </div>
+
+        <div class="resumo-card">
+            <div class="icone-card">✓</div>
+            <span class="numero presente" id="totalPresencas">180</span>
+            <span class="descricao">Total de presenças</span>
+        </div>
+
+        <div class="resumo-card">
+            <div class="icone-card">!</div>
+            <span class="numero falta" id="totalFaltas">20</span>
+            <span class="descricao">Total de faltas</span>
+        </div>
+
+        <div class="resumo-card">
+            <div class="icone-card">%</div>
+
+            <span class="numero porcentagem" id="frequenciaGeral">
+                90,0%
+            </span>
+
+            <span class="descricao">Porcentagem de frequência</span>
+
+            <div class="indicador">
+                <div class="barra">
+                    <span id="barraFrequencia" style="width: 90%;"></span>
+                </div>
+
+                <small id="mensagemFrequencia">
+                    Frequência excelente.
+                </small>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="area-voltar">
+        <a class="botao-voltar" href="{{ url_for('servicos') }}">
+            ← Voltar para os serviços
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    <strong>GRASCHOOL</strong>
+    © 2026 — Sistema Escolar
+</footer>
+
+<script>
+    // Dados de frequência de exemplo preenchidos diretamente na página.
+    const dadosPeriodos = {
+        ano: {
+            titulo: "Ano Letivo 2026",
+            descricao: "Dados acumulados de todo o ano escolar.",
+            aulas: 200,
+            presencas: 180,
+            faltas: 20
+        },
+
+        bimestre1: {
+            titulo: "1º Bimestre",
+            descricao: "Frequência registrada no primeiro bimestre.",
+            aulas: 50,
+            presencas: 47,
+            faltas: 3
+        },
+
+        bimestre2: {
+            titulo: "2º Bimestre",
+            descricao: "Frequência registrada no segundo bimestre.",
+            aulas: 50,
+            presencas: 46,
+            faltas: 4
+        },
+
+        bimestre3: {
+            titulo: "3º Bimestre",
+            descricao: "Frequência registrada no terceiro bimestre.",
+            aulas: 50,
+            presencas: 44,
+            faltas: 6
+        },
+
+        bimestre4: {
+            titulo: "4º Bimestre",
+            descricao: "Frequência registrada no quarto bimestre.",
+            aulas: 50,
+            presencas: 43,
+            faltas: 7
+        }
+    };
+
+    const seletorPeriodo = document.getElementById("seletorPeriodo");
+    const tituloPeriodo = document.getElementById("tituloPeriodo");
+    const descricaoPeriodo = document.getElementById("descricaoPeriodo");
+
+    const totalAulas = document.getElementById("totalAulas");
+    const totalPresencas = document.getElementById("totalPresencas");
+    const totalFaltas = document.getElementById("totalFaltas");
+
+    const frequenciaGeral = document.getElementById("frequenciaGeral");
+    const barraFrequencia = document.getElementById("barraFrequencia");
+    const mensagemFrequencia = document.getElementById("mensagemFrequencia");
+
+    function formatarPorcentagem(valor) {
+        return valor.toFixed(1).replace(".", ",") + "%";
+    }
+
+    function carregarPeriodo(chave) {
+        const periodo = dadosPeriodos[chave];
+
+        if (!periodo) return;
+
+        tituloPeriodo.textContent = periodo.titulo;
+        descricaoPeriodo.textContent = periodo.descricao;
+
+        totalAulas.textContent = periodo.aulas;
+        totalPresencas.textContent = periodo.presencas;
+        totalFaltas.textContent = periodo.faltas;
+
+        const frequencia = periodo.aulas > 0
+            ? (periodo.presencas / periodo.aulas) * 100
+            : 0;
+
+        frequenciaGeral.textContent = formatarPorcentagem(frequencia);
+        barraFrequencia.style.width = frequencia + "%";
+
+        if (frequencia >= 85) {
+            mensagemFrequencia.textContent = "Frequência excelente.";
+            barraFrequencia.style.background = "#159447";
+        } else if (frequencia >= 75) {
+            mensagemFrequencia.textContent = "Frequência dentro do esperado.";
+            barraFrequencia.style.background = "#e0a800";
+        } else {
+            mensagemFrequencia.textContent =
+                "Atenção: frequência abaixo do recomendado.";
+            barraFrequencia.style.background = "#d93636";
+        }
+    }
+
+    seletorPeriodo.addEventListener("change", function() {
+        carregarPeriodo(this.value);
+    });
+
+    carregarPeriodo("ano");
+</script>
+
+</body>
+</html>

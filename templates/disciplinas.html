@@ -1,0 +1,105 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GRASCHOOL - Disciplinas</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =========================
+           AJUSTE GERAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body.disciplinas {
+            width: 100%;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px 0 30px;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           TÍTULO
+        ========================= */
+
+        .titulo-disciplinas {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 10px auto;
+
+            padding: 20px 15px;
+
+            text-align: center;
+
+            font-size: clamp(14px, 2vw, 22px);
+            line-height: 1.3;
+
+            word-wrap: break-word;
+        }
+
+
+        /* =========================
+           LISTA
+        ========================= */
+
+        .lista {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+        }
+
+        .lista div {
+            width: 100%;
+            min-height: 65px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 16px;
+
+            font-size: clamp(13px, 1.5vw, 17px);
+
+            line-height: 1.4;
+
+            word-break: normal;
+        }
+
+        .lista span {
+            margin-left: auto;
+            flex-shrink: 0;
+            padding-left: 10px;
+        }
+
+
+        /* =========================
+           BOTÃO VOLTAR
+        ========================= */
+
+        .botao-voltar {
+            width: 90%;
+            max-width: 350px;
+
+            height: 55px;
+
+            margin: 30px auto;
+
+            display: block;
+
+            background: #ffd000;
+            color: #000;
+        }

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GRASCHOOL - Notificações</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #111;
+            min-height: 100vh;
+        }
+
+        header {
+            min-height: 90px;
+            background: #ffd000;
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 52px;
+            height: 52px;
+            background: #111;
+            color: #ffd000;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .acoes-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .perfil {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,.45);
+            padding: 7px 12px 7px 7px;
+            border-radius: 40px;
+        }
+
+        .perfil img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #111;
+        }
+
+        .perfil-info strong,
+        .perfil-info span {
+            display: block;
+        }
+
+        .perfil-info strong {
+            font-size: 14px;
+        }
+
+        .perfil-info span {
+            font-size: 12px;
+            color: #444;
+            margin-top: 2px;
+        }
+
+        .notificacao {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .sino {
+            width: 50px;
+            height: 50px;
+            background: #111;
+            color: #ffd000;
+            border: none;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .contador {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #e53935;
+            color: white;
+            border: 2px solid #ffd000;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .painel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 62px;
+            width: 390px;
+            max-width: calc(100vw - 20px);
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,.22);
+            overflow: hidden;
+            z-index: 500;
+        }
+
+        .painel.ativo {
+            display: block;
+        }
+
+        .painel-topo {
+            background: #111;
+            color: white;
+            padding: 18px;
+        }
+
+        .painel-topo h3 {
+            color: #ffd000;
+        }
+
+        .item {
+            display: flex;
+            gap: 13px;
+            padding: 17px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .icone {
+            min-width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            background: #fff3a8;
+        }
+
+        .texto {
+            flex: 1;
+        }
+
+        .texto h4 {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .texto p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .tempo {
+            font-size: 10px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        main {
+            width: min(1200px, 92%);
+            margin: 40px auto;
+        }
+
+        .topo-pagina {
+            margin-bottom: 28px;
+        }
+
+        .topo-pagina h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .topo-pagina p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .resumo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 5px 18px rgba(0,0,0,.06);
+            position: relative;
+        }
+
+        .resumo-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: #ffd000;
+        }
+
+        .resumo-icone {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .resumo-numero {
+            display: block;
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .resumo-descricao {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .central {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 5px 18px rgba(0,0,0,.07);
+            overflow: hidden;
+        }
+
+        .central-topo {
+            padding: 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .central-topo h3 {
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .central-topo span {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .notificacao-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 17px;
+            padding: 22px 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .icone-grande {
+            min-width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            background: #fff3a8;
+        }
+
+        .verde {
+            background: #d8f5df;
+        }
+
+        .vermelho {
+            background: #ffdcdc;
+        }
+
+        .notificacao-conteudo {
+            flex: 1;
+        }
+
+        .notificacao-conteudo h4 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .notificacao-conteudo p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .data {
+            color: #999;
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        .novo {
+            background: #ffd000;
+            color: #111;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* WHATSAPP */
+
+        .whatsapp-area {
+            background: white;
+            margin-top: 25px;
+            padding: 28px;
+            border-radius: 18px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 5px 18px rgba(0,0,0,.07);
+        }
+
+        .whatsapp-titulo {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 22px;
+        }
+
+        .whatsapp-icone {
+            width: 50px;
+            height: 50px;
+            background: #25d366;
+            color: white;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+        }
+
+        .whatsapp-titulo h3 {
+            font-size: 21px;
+        }
+
+        .whatsapp-titulo p {
+            color: #777;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        .campo label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .campo input,
+        .campo textarea,
+        .campo select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: Arial;
+            outline: none;
+        }
+
+        .campo input:focus,
+        .campo textarea:focus {
+            border-color: #25d366;
+        }
+
+        .campo textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .botao-whatsapp {
+            width: 100%;
+            border: none;
+            background: #25d366;
+            color: white;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .botao-whatsapp:hover {
+            background: #1eae55;
+            transform: translateY(-2px);
+        }
+
+        .aviso-seguranca {
+            font-size: 12px;
+            color: #777;
+            margin-top: 13px;
+            line-height: 1.5;
+        }
+
+        .area-voltar {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .botao-voltar {
+            text-decoration: none;
+            background: #ffd000;
+            color: #111;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 45px;
+            padding: 25px;
+            background: #111;
+            color: white;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        footer strong {
+            color: #ffd000;
+        }
+
+        @media(max-width:850px) {
+            .resumo {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:650px) {
+            header {
+                padding: 12px 4%;
+            }
+
+            .logo-text p,
+            .perfil-info {
+                display: none;
+            }
+
+            .perfil {
+                padding: 5px;
+            }
+
+            .perfil img {
+                width: 42px;
+                height: 42px;
+            }
+
+            .acoes-header {
+                gap: 8px;
+            }
+
+            .painel {
+                position: fixed;
+                top: 82px;
+                left: 10px;
+                right: 10px;
+                width: auto;
+                max-height: calc(100vh - 100px);
+                overflow-y: auto;
+            }
+
+            main {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .topo-pagina h2 {
+                font-size: 27px;
+            }
+
+            .resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .whatsapp-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo-area">
+        <div class="logo">GS</div>
+
+        <div class="logo-text">
+            <h1>GRASCHOOL</h1>
+            <p>Sistema de acompanhamento escolar</p>
+        </div>
+    </div>
+
+    <div class="acoes-header">
+
+        <div class="notificacao" id="areaNotificacao">
+
+            <button type="button" class="sino"
+                onclick="abrirNotificacoes(event)">
+                🔔
+            </button>
+
+            <span class="contador" id="contador">4</span>
+
+            <div class="painel" id="painel">
+
+                <div class="painel-topo">
+                    <h3>Notificações</h3>
+                    <span>4 novas</span>
+                </div>
+
+                <div class="item">
+                    <div class="icone">📝</div>
+                    <div class="texto">
+                        <h4>Nota atualizada</h4>
+                        <p>Sua nota de Matemática foi atualizada.</p>
+                        <div class="tempo">Há 10 minutos</div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icone">⚠️</div>
+                    <div class="texto">
+                        <h4>Frequência</h4>
+                        <p>Sua frequência está abaixo de 75%.</p>
+                        <div class="tempo">Há 1 hora</div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icone">📢</div>
+                    <div class="texto">
+                        <h4>Aviso da escola</h4>
+                        <p>A reunião de pais acontecerá na próxima semana.</p>
+                        <div class="tempo">Hoje</div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icone">📚</div>
+                    <div class="texto">
+                        <h4>Novo plano de ensino</h4>
+                        <p>Um novo plano foi disponibilizado.</p>
+                        <div class="tempo">Ontem</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="perfil">
+            <img src="{{ url_for('static', filename='img/12225881.png') }}"
+                alt="Foto de perfil">
+
+            <div class="perfil-info">
+                <strong>
+                    {{ session.get('usuario_nome', 'João Silva') }}
+                </strong>
+
+                <span>
+                    {{ session.get('usuario_tipo', 'Aluno') | title }}
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+<main>
+
+    <div class="topo-pagina">
+        <h2>Central de Notificações</h2>
+        <p>Acompanhe as principais atualizações da sua vida escolar.</p>
+    </div>
+
+    <section class="resumo">
+
+        <div class="resumo-card">
+            <div class="resumo-icone">🔔</div>
+            <span class="resumo-numero">4</span>
+            <span class="resumo-descricao">Notificações recentes</span>
+        </div>
+
+        <div class="resumo-card">
+            <div class="resumo-icone">📝</div>
+            <span class="resumo-numero">1</span>
+            <span class="resumo-descricao">Atualização de nota</span>
+        </div>
+
+        <div class="resumo-card">
+            <div class="resumo-icone">📢</div>
+            <span class="resumo-numero">2</span>
+            <span class="resumo-descricao">Avisos escolares</span>
+        </div>
+
+    </section>
+
+    <section class="central">
+
+        <div class="central-topo">
+            <h3>Atualizações recentes</h3>
+            <span>Últimas informações do sistema escolar</span>
+        </div>
+
+        <div class="notificacao-card">
+            <div class="icone-grande">📝</div>
+            <div class="notificacao-conteudo">
+                <h4>Nota atualizada</h4>
+                <p>Sua nota de Matemática foi atualizada pelo professor.</p>
+                <div class="data">Hoje — há 10 minutos</div>
+            </div>
+            <span class="novo">NOVO</span>
+        </div>
+
+        <div class="notificacao-card">
+            <div class="icone-grande">⚠️</div>
+            <div class="notificacao-conteudo">
+                <h4>Atenção à frequência</h4>
+                <p>Sua frequência escolar está abaixo do limite recomendado de 75%.</p>
+                <div class="data">Hoje — há 1 hora</div>
+            </div>
+            <span class="novo">IMPORTANTE</span>
+        </div>
+
+        <div class="notificacao-card">
+            <div class="icone-grande verde">📢</div>
+            <div class="notificacao-conteudo">
+                <h4>Aviso da escola</h4>
+                <p>A reunião de pais acontecerá na próxima semana.</p>
+                <div class="data">Hoje</div>
+            </div>
+        </div>
+
+        <div class="notificacao-card">
+            <div class="icone-grande vermelho">📚</div>
+            <div class="notificacao-conteudo">
+                <h4>Novo plano de ensino</h4>
+                <p>Um novo plano de ensino foi disponibilizado no sistema.</p>
+                <div class="data">Ontem</div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- INTEGRAÇÃO COM WHATSAPP -->
+
+    <section class="whatsapp-area">
+
+        <div class="whatsapp-titulo">
+
+            <div class="whatsapp-icone">☏</div>
+
+            <div>
+                <h3>Enviar aviso pelo WhatsApp</h3>
+                <p>Entre em contato com os responsáveis dos alunos.</p>
+            </div>
+
+        </div>
+
+        <form id="formWhatsApp">
+
+            <div class="campo">
+                <label for="telefone">Telefone do responsável</label>
+
+                <input
+                    type="tel"
+                    id="telefone"
+                    placeholder="Ex: 5598999999999"
+                    maxlength="15"
+                    required>
+
+            </div>
+
+            <div class="campo">
+                <label for="aluno">Nome do aluno</label>
+
+                <input
+                    type="text"
+                    id="aluno"
+                    placeholder="Digite o nome do aluno"
+                    required>
+            </div>
+
+            <div class="campo">
+                <label for="assunto">Assunto do aviso</label>
+
+                <select id="assunto" required>
+                    <option value="">Selecione o assunto</option>
+                    <option value="Aviso escolar">Aviso escolar</option>
+                    <option value="Reunião de pais">Reunião de pais</option>
+                    <option value="Atualização de notas">Atualização de notas</option>
+                    <option value="Frequência escolar">Frequência escolar</option>
+                    <option value="Outro">Outro assunto</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="mensagem">Mensagem</label>
+
+                <textarea
+                    id="mensagem"
+                    placeholder="Digite aqui o aviso que deseja enviar..."
+                    required></textarea>
+            </div>
+
+            <button type="submit" class="botao-whatsapp">
+                ☎ Enviar mensagem pelo WhatsApp
+            </button>
+
+        </form>
+
+        <p class="aviso-seguranca">
+            A mensagem será aberta no WhatsApp para conferência e envio.
+            Utilize somente números autorizados pelos responsáveis.
+        </p>
+
+    </section>
+
+    <div class="area-voltar">
+        <a class="botao-voltar" href="{{ url_for('servicos') }}">
+            ← Voltar para Serviços
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    <strong>GRASCHOOL</strong>
+    © 2026 — Sistema Escolar
+</footer>
+
+<script>
+
+    // ABRIR NOTIFICAÇÕES
+
+    function abrirNotificacoes(event) {
+
+        event.stopPropagation();
+
+        const painel = document.getElementById("painel");
+
+        painel.classList.toggle("ativo");
+
+    }
+
+    document.addEventListener("click", function(event) {
+
+        const area = document.getElementById("areaNotificacao");
+        const painel = document.getElementById("painel");
+
+        if (!area.contains(event.target)) {
+            painel.classList.remove("ativo");
+        }
+
+    });
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+            document.getElementById("painel").classList.remove("ativo");
+        }
+
+    });
+
+
+    // ENVIO PELO WHATSAPP
+
+    document.getElementById("formWhatsApp").addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const telefone = document.getElementById("telefone").value.trim();
+        const aluno = document.getElementById("aluno").value.trim();
+        const assunto = document.getElementById("assunto").value;
+        const mensagem = document.getElementById("mensagem").value.trim();
+
+        // Remove espaços, parênteses, traços e outros caracteres.
+        const numero = telefone.replace(/\D/g, "");
+
+        // Validação do número brasileiro com DDI 55.
+        if (!/^[1-9]\d{9,12}$/.test(numero)) {
+            alert("Digite um telefone válido com DDD e código do país. Exemplo: 5598999999999");
+            return;
+        }
+
+        const texto =
+`*GRASCHOOL - Sistema Escolar*
+
+Olá, responsável!
+
+Aluno: ${aluno}
+
+Assunto: ${assunto}
+
+${mensagem}
+
+Atenciosamente,
+Equipe GRASCHOOL.`;
+
+        const link = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
+
+        window.open(link, "_blank", "noopener,noreferrer");
+
+    });
+
+</script>
+
+</body>
+</html>
